@@ -139,10 +139,6 @@
         image.onload = () => {
           this.loading = false;
         };
-      },
-      inView () {
-        let rect = this.$el.getBoundingClientRect();
-        return (rect.top < window.innerHeight && rect.bottom > 0) && (rect.left < window.innerWidth && rect.right > 0);
       }
     }
   }

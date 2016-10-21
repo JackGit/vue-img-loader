@@ -2,16 +2,17 @@
   "name": "vue-img-loader",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
-  "author": "",
-  "license": "ISC",
+  "main": "./dist/vue-img-loader.min.js",
+  "author": "jack yang",
+  "license": "MIT",
+  "keywords": [
+    "vue", "image loader", "image-loader"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "stackblur": "^1.0.0",
-    "stackblur-canvas": "^1.4.0",
-    "vue": "^2.0.2"
+    "stackblur-canvas": "^1.4.0"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
@@ -20,12 +21,13 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-2": "^6.17.0",
     "css-loader": "^0.23.1",
-    "file-loader": "^0.9.0",
-    "image-webpack-loader": "^1.8.0",
     "style-loader": "^0.13.1",
     "uglifyjs": "^2.4.10",
-    "url-loader": "^0.5.7",
     "vue-loader": "^9.5.3",
     "webpack": "^1.13.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackgit/vue-img-loader.git"
   }
 }
