@@ -14,19 +14,19 @@ Vue 2.*
 
 by npm
 
-```
+```bash
 npm i vue-img-loader --save
 ```
 
 or, directly include dist/vue-img-loader.min.js in your page, VueImgLoader exposed as global variable
 
-```
+```html
 <script src="path/to/vue-img-loader.min.js"><script>
 ```
 
 then, use it as any Vue component
 
-```
+```js
 // es6
 import { VueImgLoader } from 'vue-img-loader';
 
@@ -44,7 +44,7 @@ new Vue({
 
 ## usage
 
-```
+```html
 // you will see a 200*100 lightgrey box before the image loaded, and the loaded image will be displayed in the same size
 <vue-img-loader src="path/to/your/image.jpg"
                 width="200"
@@ -81,7 +81,7 @@ new Vue({
 
 you can change VueImgLoader's default props value by change the config object. Blow are the default config
 
-```
+```js
 VueImgLoader.config.blurPreview = true;
 VueImgLoader.config.blurRadius = 20;
 VueImgLoader.config.blurAlphaChannel = false;
