@@ -1,6 +1,10 @@
 ## description
 
+this is a image loader UI component for Vue 2.X
+
 ## demo
+
+[live demo][1]
 
 ## requirement
 
@@ -23,6 +27,12 @@ or, directly include dist/vue-img-loader.min.js in your page, VueImgLoader expos
 then, use it as any Vue component
 
 ```
+// es6
+import { VueImgLoader } from 'vue-img-loader';
+
+// es5
+var VueImgLoader = require('vue-img-loader').default;
+
 new Vue({
     ...
     components: {
@@ -35,7 +45,36 @@ new Vue({
 ## usage
 
 ```
-<vue-img-loader src=""></vue-img-loader>
+// you will see a 200*100 lightgrey box before the image loaded, and the loaded image will be displayed in the same size
+<vue-img-loader src="path/to/your/image.jpg"
+                width="200"
+                height="100"
+                background-color="lightgrey"></vue-img-loader>
+
+// you can also give a preview
+<vue-img-loader src="path/to/your/image.jpg"
+                preview="path/to/your/preview.jpg"
+                :blur-preview="false"
+                width="200"
+                height="100"></vue-img-loader>
+
+// and you can blur your preview like what medium.com does
+<vue-img-loader src="path/to/your/image.jpg"
+                preview="path/to/your/preview.jpg"
+                width="200"
+                height="100"></vue-img-loader>
+
+// and you can customize more about loading status
+<vue-img-loader src="path/to/your/image.jpg" width="200" height="100">
+  <h4>loading...</h4>
+</vue-img-loader>
+
+// at last, transition is supported, just assign the name of a defined vue transition
+<vue-img-loader src="path/to/your/image.jpg"
+                preview="path/to/your/preview.jpg"
+                width="200"
+                height="100"
+                transition="fade"></vue-img-loader>
 ```
 
 ## config
@@ -51,3 +90,11 @@ VueImgLoader.config.height = 0;
 VueImgLoader.config.backgroundColor = '';
 VueImgLoader.config.transition = '';
 ```
+
+## todo
+
+will support lazy load next
+
+
+
+[1]: http://demo.jackyang.me/vue-img-loader/index.html

@@ -65,7 +65,7 @@
       },
       height: {
         type: [String, Number],
-        default: () => config.width
+        default: () => config.height
       },
       backgroundColor: {
         type: String,
@@ -85,7 +85,8 @@
       return {
         containerStyle: {
           position: 'relative',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          display: 'inline-block'
         },
         loading: true
       };
@@ -104,6 +105,7 @@
         this.containerStyle = {
           position: 'relative',
           overflow: 'hidden',
+          display: 'inline-block',
           width: this.width ? this.width + 'px' : parent.clientWidth + 'px',
           height: this.height ? this.height + 'px' : parent.clientHeight + 'px',
           backgroundColor: this.backgroundColor || 'initial'

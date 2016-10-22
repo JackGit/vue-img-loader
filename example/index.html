@@ -27,23 +27,27 @@
 </head>
 <body>
     <div id="mountNode">
-      <p>this is a pano image, which will be loaded by vue-img-loader</p>
+      <p>This is vue-img-loader demo. Please set Network as Good 3G in devTools and refresh the page.</p>
       <p>preview</p>
-      <vue-img-loader src="image.jpg" preview="preview.jpg" :blur-preview="false" width="400" height="200"></vue-img-loader>
+      <vue-img-loader src="image.jpg" preview="preview.jpg" :blur-preview="false"></vue-img-loader>
       <p>blur preview</p>
-      <vue-img-loader src="image.jpg" preview="preview.jpg" width="400" height="200"></vue-img-loader>
+      <vue-img-loader src="image.jpg" preview="preview.jpg"></vue-img-loader>
       <p>transition</p>
-      <vue-img-loader src="image.jpg" preview="preview.jpg" transition="fade" width="400" height="200"></vue-img-loader>
+      <vue-img-loader src="image.jpg" preview="preview.jpg" transition="fade"></vue-img-loader>
       <p>background color</p>
-      <vue-img-loader src="image.jpg" background-color="lightgrey" width="400" height="200"></vue-img-loader>
+      <vue-img-loader src="image.jpg" background-color="lightgrey"></vue-img-loader>
       <p>customize preview content</p>
-      <vue-img-loader src="image.jpg" width="400" height="200">
+      <vue-img-loader src="image.jpg">
         <div class="my-preview">loading...</div>
       </vue-img-loader>
     </div>
     <script src="https://cdn.jsdelivr.net/vue/2.0.3/vue.js"></script>
-    <script src="../dist/vue-img-loader.min.js"></script>
+    <script src="vue-img-loader.min.js"></script>
     <script>
+
+      VueImgLoader.config.width = 600;
+      VueImgLoader.config.height = 300;
+
       new Vue({
         el: '#mountNode',
         components: {
