@@ -8,9 +8,9 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: '[name].common.js',
+    filename: '[name].min.js',
     library: 'VueImgLoader',
-    libraryTarget: 'commonjs'
+    libraryTarget: 'umd'
   },
   module: {
     loaders: [{

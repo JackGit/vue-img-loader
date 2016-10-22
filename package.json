@@ -1,8 +1,8 @@
 {
   "name": "vue-img-loader",
-  "version": "0.0.4",
+  "version": "0.0.8",
   "description": "",
-  "main": "./dist/vue-img-loader.min.js",
+  "main": "./dist/vue-img-loader.common.js",
   "author": "jack yang",
   "license": "MIT",
   "keywords": [

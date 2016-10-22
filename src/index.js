@@ -2,8 +2,6 @@ import VueImgLoader from './VueImgLoader.vue';
 import config from './config';
 
 VueImgLoader.config = config;
-export default VueImgLoader;
+VueImgLoader.version = '0.0.8';
 
-if (typeof window !== 'undefined') {
-  window.VueImgLoader = VueImgLoader;
-}
+module.exports = VueImgLoader;
