@@ -21,11 +21,11 @@
 
 <template>
   <div :style="containerStyle">
-    <img v-if="!loading" class="vil-image" alt="" :src="src">
+    <img v-show="!loading" class="vil-image" alt="" :src="src" ref="img">
     <transition :name="transition">
       <div v-if="loading" class="vil-preview">
         <canvas  v-if="preview && blurPreview" ref="canvas"></canvas>
-        <img v-if="preview && !blurPreview" :src="preview" alt="" class="vil-preview__img">
+        <img v-show="preview && !blurPreview" :src="preview" alt="" class="vil-preview__img" ref="preview">
         <slot></slot>
       </div>
     </transition>
@@ -35,6 +35,7 @@
 <script>
   import stackblur from 'stackblur-canvas';
   import config from './config';
+  import CenterIt from './center-it';
 
   export default {
     props: {
@@ -78,6 +79,10 @@
       lazy: {
         type: Boolean,
         default: () => config.lazy
+      },
+      autoClip: {
+        type: Boolean,
+        default: true
       }
     },
 
@@ -122,25 +127,44 @@
 
         preview.alt = '';
         preview.src = this.preview;
-        preview.width = this.width;
-        preview.height = this.height;
+
+        if (!this.autoClip) {
+          preview.width = this.width;
+          preview.height = this.height;
+        }
 
         preview.onload = () => {
           this.blurPreview && this.blurCanvas(preview);
+          if (this.autoClip) {
+            this.autoClipImage(this.$refs.preview, preview.naturalWidth, preview.naturalHeight)
+          }
         };
       },
       loadImage () {
-        var image = new Image();
+        let image = new Image();
 
         this.loading = true;
         image.alt = '';
         image.src = this.src;
-        image.width = this.width;
-        image.height = this.height;
+
+        if (!this.autoClip) {
+          image.width = this.width;
+          image.height = this.height;
+        }
 
         image.onload = () => {
           this.loading = false;
+          if (this.autoClip) {
+            this.autoClipImage(this.$refs.img, image.naturalWidth, image.naturalHeight)
+          }
         };
+      },
+      autoClipImage (img, width, height) {
+        let center = new CenterIt(this.width, this.height, width, height, {type: 'cover'})
+        img.style.width = center.newWidth() + 'px'
+        img.style.height = center.newHeight() + 'px'
+        img.style.top = center.offset().top + 'px'
+        img.style.left = center.offset().left + 'px'
       }
     }
   }
