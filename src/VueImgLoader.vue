@@ -59,6 +59,8 @@
   }
 
   export default {
+    isDestroyed: false,
+
     props: {
       src: {
         type: String,
@@ -126,6 +128,10 @@
       this.load()
     },
 
+    beforeDestroy () {
+      this.$options.isDestroyed = true
+    },
+
     watch: {
         src () {
           this.load()
@@ -160,23 +166,37 @@
           return
         }
 
-        _loadImage(this.preview, true, image => {
-          let previewImage = this.$refs.previewImage
-          if (this.blurPreview) {
-            this.blurCanvas(image)
-          } else {
-            this.makeCenter(previewImage, image.naturalWidth, image.naturalHeight)
-            previewImage.src = this.preview
-          }
-          this.previewReady = true
-        })
+        (function (key) {
+          _loadImage(this.preview, true, image => {
+            let previewImage = this.$refs.previewImage
+
+            // component destroyed, or src changed, or image ready (cached image)
+            if (this.$options.isDestroyed || key !== this.src || !previewImage) {
+              return
+            }
+
+            if (this.blurPreview) {
+              this.blurCanvas(image)
+            } else {
+              this.makeCenter(previewImage, image.naturalWidth, image.naturalHeight)
+              previewImage.src = this.preview
+            }
+            this.previewReady = true
+          })
+        }).bind(this)(this.src)
       },
       loadImage () {
         _loadImage(this.src, false, img => {
-          let image = this.$refs.image
-          this.makeCenter(image, img.naturalWidth, img.naturalHeight)
-          image.src = this.src
-          this.imageReady = true
+          (function (key) {
+            if (this.$options.isDestroyed || key !== this.src) {
+              return
+            }
+
+            let image = this.$refs.image
+            this.makeCenter(image, img.naturalWidth, img.naturalHeight)
+            image.src = this.src
+            this.imageReady = true
+          }).bind(this)(this.src)
         })
       },
       blurCanvas (previewImage) {
