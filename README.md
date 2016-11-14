@@ -49,6 +49,7 @@ new Vue({
 <vue-img-loader src="path/to/your/image.jpg"
                 width="200"
                 height="100"
+                center-type="contain"
                 background-color="lightgrey"></vue-img-loader>
 
 // you can also give a preview
