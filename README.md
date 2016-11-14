@@ -1,6 +1,6 @@
 ## description
 
-this is a image loader UI component for Vue 2.X
+this is a image loader UI component for Vue 2.X. The image will be center positioned after loaded
 
 ## demo
 
@@ -89,6 +89,7 @@ VueImgLoader.config.width = 0;
 VueImgLoader.config.height = 0;
 VueImgLoader.config.backgroundColor = '';
 VueImgLoader.config.transition = '';
+VueImgLoader.config.centerType = 'cover'; // "cover", "contain"
 ```
 
 ## todo

@@ -8,12 +8,11 @@
         font-family: arial;
       }
       .fade-enter-active, .fade-leave-active {
-        transition: opacity 2s
+        transition: opacity .3s
       }
       .fade-enter, .fade-leave-active {
         opacity: 0
       }
-
       .my-preview {
         position: relative;
         width: 100px;
@@ -23,21 +22,32 @@
         margin: 0 auto;
         top: 30%;
       }
+      button {
+        display: block;
+      }
     </style>
 </head>
 <body>
     <div id="mountNode">
       <p>This is vue-img-loader demo. Please set Network as Good 3G in devTools and refresh the page.</p>
-      <p>preview</p>
-      <vue-img-loader src="image.jpg" preview="preview.jpg" :blur-preview="false"></vue-img-loader>
+      <p>preview (cover center)</p>
+      <button @click="changeImage('cover')">CHANGE IMAGE</button>
+      <vue-img-loader :src="'image_' + coverIndex + '.jpg?cover'" :preview="'preview_' + coverIndex + '.jpg?cover'" :blur-preview="false"></vue-img-loader>
+      <p>preview (contain center)</p>
+      <button @click="changeImage('contain')">CHANGE IMAGE</button>
+      <vue-img-loader :src="'image_' + containIndex + '.jpg?contain'" :preview="'preview_' + containIndex + '.jpg?contain'" :blur-preview="false" center-type="contain"></vue-img-loader>
       <p>blur preview</p>
-      <vue-img-loader src="image.jpg" preview="preview.jpg"></vue-img-loader>
+      <button @click="changeImage('blur')">CHANGE IMAGE</button>
+      <vue-img-loader :src="'image_' + blurIndex + '.jpg?blur'" :preview="'preview_' + blurIndex + '.jpg?blur'"></vue-img-loader>
       <p>transition</p>
-      <vue-img-loader src="image.jpg" preview="preview.jpg" transition="fade"></vue-img-loader>
+      <button @click="changeImage('transition')">CHANGE IMAGE</button>
+      <vue-img-loader :src="'image_' + transitionIndex + '.jpg?transition'" :preview="'preview_' + transitionIndex + '.jpg?transition'" transition="fade"></vue-img-loader>
       <p>background color</p>
-      <vue-img-loader src="image.jpg" background-color="lightgrey"></vue-img-loader>
+      <button @click="changeImage('background')">CHANGE IMAGE</button>
+      <vue-img-loader :src="'image_' + backgroundIndex + '.jpg?background'" background-color="lightgrey"></vue-img-loader>
       <p>customize preview content</p>
-      <vue-img-loader src="image.jpg">
+      <button @click="changeImage('customize')">CHANGE IMAGE</button>
+      <vue-img-loader :src="'image_' + customizeIndex + '.jpg?customize'">
         <div class="my-preview">loading...</div>
       </vue-img-loader>
     </div>
@@ -45,13 +55,26 @@
     <script src="vue-img-loader.min.js"></script>
     <script>
 
-      VueImgLoader.config.width = 400;
-      VueImgLoader.config.height = 400;
+      VueImgLoader.config.width = 400
+      VueImgLoader.config.height = 400
 
       new Vue({
         el: '#mountNode',
+        data: {
+          coverIndex: 0,
+          containIndex: 0,
+          blurIndex: 0,
+          transitionIndex: 0,
+          backgroundIndex: 0,
+          customizeIndex: 0
+        },
         components: {
           'vue-img-loader': VueImgLoader
+        },
+        methods: {
+          changeImage: function (type) {
+            this[type + 'Index'] = (this[type + 'Index'] + 1) % 3
+          }
         }
       })
     </script>

@@ -12,20 +12,17 @@
     left: 0;
     width: 100%;
     height: 100%;
-  }
-  .vil-preview__img {
-    width: 100%;
-    height: 100%;
+    overflow: hidden;
   }
 </style>
 
 <template>
   <div :style="containerStyle">
-    <img v-show="!loading" class="vil-image" alt="" :src="src" ref="img">
+    <img v-show="imageReady" class="vil-image" alt="" src="" ref="image">
     <transition :name="transition">
-      <div v-if="loading" class="vil-preview">
-        <canvas  v-if="preview && blurPreview" ref="canvas"></canvas>
-        <img v-show="preview && !blurPreview" :src="preview" alt="" class="vil-preview__img" ref="preview">
+      <div v-if="!imageReady" class="vil-preview" ref="preview">
+        <canvas v-show="preview && previewReady && blurPreview" ref="canvas"></canvas>
+        <img v-show="preview && previewReady && !blurPreview" src="" alt="" ref="previewImage">
         <slot></slot>
       </div>
     </transition>
@@ -33,9 +30,32 @@
 </template>
 
 <script>
-  import stackblur from 'stackblur-canvas';
-  import config from './config';
-  import CenterIt from './center-it';
+  import CenterIt from 'center-it'
+  import stackblur from 'stackblur-canvas'
+  import config from './config'
+
+  function _loadImage (url, callback) {
+    let image = new Image()
+    image.onload = function () {
+      callback && callback(image)
+    }
+    image.src = url
+  }
+
+  function _center (element, containerWidth, containerHeight, elementWidth, elementHeight, type) {
+    let centerIt = new CenterIt({
+      containerWidth: containerWidth,
+      containerHeight: containerHeight,
+      originWidth: elementWidth,
+      originHeight: elementHeight,
+      centerType: type
+    })
+    element.style.position = 'absolute'
+    element.style.top = centerIt.offset().top + 'px'
+    element.style.left = centerIt.offset().left + 'px'
+    element.style.width = centerIt.width() + 'px'
+    element.style.height = centerIt.height() + 'px'
+  }
 
   export default {
     props: {
@@ -80,9 +100,9 @@
         type: Boolean,
         default: () => config.lazy
       },
-      autoClip: {
-        type: Boolean,
-        default: true
+      centerType: {
+        type: String,
+        default: () => config.centerType
       }
     },
 
@@ -93,17 +113,33 @@
           overflow: 'hidden',
           display: 'inline-block'
         },
-        loading: true
+        loading: true,
+        imageReady: false,
+        previewReady: false
       };
     },
 
     mounted () {
-      this.setContainerStyle();
-      this.preview && this.loadPreview();
-      this.loadImage();
+      this.setContainerStyle()
+      this.load()
+    },
+
+    watch: {
+        src () {
+          this.load()
+        }
     },
 
     methods: {
+      load () {
+        this.imageReady = false
+        this.previewReady = false
+        this.loadPreview()
+        this.loadImage()
+      },
+      makeCenter (element, width, height) {
+        _center(element, this.width, this.height, width, height, this.centerType)
+      },
       setContainerStyle () {
         let parent = this.$el.parentElement;
 
@@ -116,55 +152,36 @@
           backgroundColor: this.backgroundColor || 'initial'
         };
       },
-      blurCanvas (preview) {
-        let canvas = this.$refs.canvas;
-        stackblur.image(preview, canvas, this.blurRadius, this.blurAlphaChannel);
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-      },
       loadPreview () {
-        let preview = new Image();
-
-        preview.alt = '';
-        preview.src = this.preview;
-
-        if (!this.autoClip) {
-          preview.width = this.width;
-          preview.height = this.height;
+        if (!this.preview) {
+          return
         }
 
-        preview.onload = () => {
-          this.blurPreview && this.blurCanvas(preview);
-          if (this.autoClip) {
-            this.autoClipImage(this.$refs.preview, preview.naturalWidth, preview.naturalHeight)
+        _loadImage(this.preview, image => {
+          let previewImage = this.$refs.previewImage
+          if (this.blurPreview) {
+            this.blurCanvas(image)
+          } else {
+            this.makeCenter(previewImage, image.naturalWidth, image.naturalHeight)
+            previewImage.src = this.preview
           }
-        };
+          this.previewReady = true
+        })
       },
       loadImage () {
-        let image = new Image();
-
-        this.loading = true;
-        image.alt = '';
-        image.src = this.src;
-
-        if (!this.autoClip) {
-          image.width = this.width;
-          image.height = this.height;
-        }
-
-        image.onload = () => {
-          this.loading = false;
-          if (this.autoClip) {
-            this.autoClipImage(this.$refs.img, image.naturalWidth, image.naturalHeight)
-          }
-        };
+        _loadImage(this.src, img => {
+          let image = this.$refs.image
+          this.makeCenter(image, img.naturalWidth, img.naturalHeight)
+          image.src = this.src
+          this.imageReady = true
+        })
       },
-      autoClipImage (img, width, height) {
-        let center = new CenterIt(this.width, this.height, width, height, {type: 'cover'})
-        img.style.width = center.newWidth() + 'px'
-        img.style.height = center.newHeight() + 'px'
-        img.style.top = center.offset().top + 'px'
-        img.style.left = center.offset().left + 'px'
+      blurCanvas (previewImage) {
+        let canvas = this.$refs.canvas;
+        canvas.style.width = previewImage.naturalWidth + 'px'
+        canvas.style.height = previewImage.naturalHeight + 'px'
+        stackblur.image(previewImage, canvas, this.blurRadius, this.blurAlphaChannel)
+        this.makeCenter(canvas, previewImage.naturalWidth, previewImage.naturalHeight)
       }
     }
   }

@@ -6,5 +6,6 @@ export default {
   height: 0,
   lazy: false,
   backgroundColor: '',
-  transition: ''
+  transition: '',
+  centerType: 'cover'
 }
