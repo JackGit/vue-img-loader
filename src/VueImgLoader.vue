@@ -34,8 +34,9 @@
   import stackblur from 'stackblur-canvas'
   import config from './config'
 
-  function _loadImage (url, callback) {
+  function _loadImage (url, crossOrigin, callback) {
     let image = new Image()
+    crossOrigin && (image.crossOrigin = "Anonymous")
     image.onload = function () {
       callback && callback(image)
     }
@@ -159,7 +160,7 @@
           return
         }
 
-        _loadImage(this.preview, image => {
+        _loadImage(this.preview, true, image => {
           let previewImage = this.$refs.previewImage
           if (this.blurPreview) {
             this.blurCanvas(image)
@@ -171,7 +172,7 @@
         })
       },
       loadImage () {
-        _loadImage(this.src, img => {
+        _loadImage(this.src, false, img => {
           let image = this.$refs.image
           this.makeCenter(image, img.naturalWidth, img.naturalHeight)
           image.src = this.src
