@@ -113,9 +113,10 @@
           overflow: 'hidden',
           display: 'inline-block'
         },
-        loading: true,
         imageReady: false,
-        previewReady: false
+        previewReady: false,
+        containerWidth: this.width,
+        containerHeight: this.height
       };
     },
 
@@ -138,17 +139,18 @@
         this.loadImage()
       },
       makeCenter (element, width, height) {
-        _center(element, this.width, this.height, width, height, this.centerType)
+        _center(element, this.containerWidth, this.containerHeight, width, height, this.centerType)
       },
       setContainerStyle () {
-        let parent = this.$el.parentElement;
-
+        let parent = this.$el.parentElement
+        this.containerWidth = this.width || parent.clientWidth
+        this.containerHeight = this.height || parent.clientHeight
         this.containerStyle = {
           position: 'relative',
           overflow: 'hidden',
           display: 'inline-block',
-          width: this.width ? this.width + 'px' : parent.clientWidth + 'px',
-          height: this.height ? this.height + 'px' : parent.clientHeight + 'px',
+          width: this.containerWidth + 'px',
+          height: this.containerHeight + 'px',
           backgroundColor: this.backgroundColor || 'initial'
         };
       },
