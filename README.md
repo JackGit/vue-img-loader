@@ -8,7 +8,7 @@ this is a image loader UI component for Vue 2.X. The image will be center positi
 
 ## requirement
 
-Vue 2.*
+Vue 2.0
 
 ## install
 
