@@ -10,7 +10,7 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].common.js',
     library: 'VueImgLoader',
-    libraryTarget: 'commonjs'
+    libraryTarget: 'commonjs2'
   },
   module: {
     loaders: [{

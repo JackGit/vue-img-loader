@@ -52,10 +52,7 @@
       centerType: type
     })
     element.style.position = 'absolute'
-    element.style.top = centerIt.offset().top + 'px'
-    element.style.left = centerIt.offset().left + 'px'
-    element.style.width = centerIt.width() + 'px'
-    element.style.height = centerIt.height() + 'px'
+    centerIt.setPosition(element)
   }
 
   export default {

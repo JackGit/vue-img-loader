@@ -1,6 +1,6 @@
 {
   "name": "vue-img-loader",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "",
   "main": "./dist/vue-img-loader.common.js",
   "author": "jack yang",
@@ -14,7 +14,7 @@
     "build": "webpack --config webpack.as.umd.js && webpack"
   },
   "dependencies": {
-    "center-it": "^0.1.0",
+    "center-it": "^1.1.1",
     "stackblur-canvas": "^1.4.0"
   },
   "devDependencies": {

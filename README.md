@@ -28,10 +28,10 @@ then, use it as any Vue component
 
 ```js
 // es6
-import { VueImgLoader } from 'vue-img-loader';
+import VueImgLoader from 'vue-img-loader';
 
 // es5
-var VueImgLoader = require('vue-img-loader').default;
+var VueImgLoader = require('vue-img-loader');
 
 new Vue({
     ...
