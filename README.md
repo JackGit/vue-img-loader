@@ -99,4 +99,4 @@ will support lazy load next
 
 
 
-[1]: http://demo.jackyang.me/vue-img-loader/index.html
+[1]: https://jackgit.github.io/vue-img-loader/index.html
